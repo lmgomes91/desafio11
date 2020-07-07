@@ -32,14 +32,12 @@ const Orders: React.FC = () => {
 
   useEffect(() => {
     async function loadOrders(): Promise<void> {
-      api.get('orders').then(response => {
-        setOrders(response.data);
-      });
-
-      orders.forEach(order => {
+      const { data } = await api.get<Food[]>('orders');
+      data.forEach(order => {
         // eslint-disable-next-line no-param-reassign
         order.formattedValue = Number(formatValue(order.price));
       });
+      setOrders(data);
     }
 
     loadOrders();
